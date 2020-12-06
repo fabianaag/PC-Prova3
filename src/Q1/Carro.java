@@ -20,7 +20,7 @@ public class Carro extends Thread {
     }
 
     public void correr() {
-        System.out.println("Carro atingiu capacidade, irá correr");
+        System.out.println("Carro atingiu capacidade, corrida irá durar 3seg");
         try {
             Thread.sleep(3000);
         } catch (InterruptedException e) {
@@ -29,21 +29,17 @@ public class Carro extends Thread {
         System.out.println("Carro chegou ao destino, irá descarregar passageiros");
     }
 
-    public void embarcar(Passageiro t) {
-        synchronized (carregamentoTrava) {
-            if (estaCarregando && passageiros.size() < capacidade && !passageiros.contains(t)) {
-                System.out.println("Carro sendo embarcado por Thread " + t.getName());
-                passageiros.add(t);
-            }
+    public synchronized void embarcar(Passageiro t) {
+        if (estaCarregando && passageiros.size() < capacidade && !passageiros.contains(t)) {
+            System.out.println("Carro sendo embarcado por Thread " + t.getName());
+            passageiros.add(t);
         }
     }
 
     public synchronized void desembarcar(Passageiro t) {
-        synchronized (descarregamentoTrava) {
-            if (estaDescarregando && passageiros.size() > 0 && passageiros.contains(t)) {
-                System.out.println("Carro sendo desembarcado por Thread " + t.getName());
-                passageiros.remove(t);
-            }
+        if (estaDescarregando && passageiros.size() > 0 && passageiros.contains(t)) {
+            System.out.println("Carro sendo desembarcado por Thread " + t.getName());
+            passageiros.remove(t);
         }
     }
 

@@ -22,7 +22,7 @@ public class Passageiro extends Thread {
 
             // Passageiro espera para próxima viagem
             try {
-                Thread.sleep(700);
+                Thread.sleep((int) Math.random() * 1000);
             } catch (InterruptedException e) {
                 e.printStackTrace();
             }
