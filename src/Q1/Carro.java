@@ -9,10 +9,6 @@ public class Carro extends Thread {
     public boolean estaCarregando;
     public boolean estaDescarregando;
 
-    // Criando travas(locks) de carregamento supondo que vários carros pudessem existir
-    private final Object carregamentoTrava = new Object();
-    private final Object descarregamentoTrava = new Object();
-
     public Carro(int C) {
         capacidade = C;
         passageiros = new ArrayList<Passageiro>(C);
