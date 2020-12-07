@@ -25,6 +25,13 @@ public class Carro extends Thread {
         System.out.println("Carro chegou ao destino, irá descarregar passageiros");
     }
 
+    /**
+     * Irá aceitar um passageiro dentro do carro, caso:
+     *   - o carro tenha capacidade
+     *   - está recebendo passageiros
+     *   - passageiro não tentou embarcar anteriormente
+     * @param t Possível passageiro do carro.
+     */
     public synchronized void embarcar(Passageiro t) {
         if (estaCarregando && passageiros.size() < capacidade && !passageiros.contains(t)) {
             System.out.println("Carro sendo embarcado por Thread " + t.getName());
@@ -32,6 +39,13 @@ public class Carro extends Thread {
         }
     }
 
+    /**
+     * Irá desembarcar um passageiro do carro caso:
+     *   - passageiro está dentro do carro
+     *   - está desembarcando passageiros
+     *   - existem passageiros a desembarcar
+     * @param t Possível passageiro do carro.
+     */
     public synchronized void desembarcar(Passageiro t) {
         if (estaDescarregando && passageiros.size() > 0 && passageiros.contains(t)) {
             System.out.println("Carro sendo desembarcado por Thread " + t.getName());
