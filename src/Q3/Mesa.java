@@ -1,33 +1,34 @@
 package Q3;
 
-import java.util.HashMap;
+import java.util.ArrayList;
 
-public class Mesa extends Thread {
-    // Bebedores serão identificados com um Mapa para otimizar busca
-    private HashMap<Long, Bebedor> bebedores;
-    private int capacidade;
+public class Mesa {
+    private int capacidade = 4;
+    private ArrayList<Aluno> alunos = new ArrayList<>(capacidade);
 
-    public Mesa(int lugares) {
-        bebedores = new HashMap();
-        capacidade = lugares;
-    }
-
-    public synchronized boolean sentar(Bebedor b) {
-        if (bebedores.size() < capacidade && !bebedores.containsKey(b.getId())) {
-            bebedores.put(b.getId(), b);
-            System.out.println("Bebedor " + b.getId() + " sentou na mesa");
-            return true;
-        }
-        return false;
-    }
-
-    public synchronized void levantar(Bebedor b) {
-        if (bebedores.size() > 0 && bebedores.containsKey(b.getId())) {
-            bebedores.remove(b.getId());
+    public boolean temEspacoDisponivel() {
+        synchronized (alunos) {
+            return alunos.size() < capacidade;
         }
     }
 
-    public synchronized HashMap<Long, Bebedor> getBebedores() {
-        return bebedores;
+    public boolean sentar(Aluno aluno) {
+        synchronized (alunos) {
+            if (alunos.size() < capacidade && !alunos.contains(aluno)) {
+                System.out.println("Aluno " + aluno.getId() + " sentou na mesa");
+                return alunos.add(aluno);
+            }
+            return false;
+        }
+    }
+
+    public void levantar(Aluno aluno) {
+        synchronized (alunos) {
+            alunos.remove(aluno);
+        }
+    }
+
+    public synchronized ArrayList<Aluno> getAlunos() {
+        return alunos;
     }
 }
